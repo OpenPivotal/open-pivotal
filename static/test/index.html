@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Mocha Spec Runner</title>
+    <link rel="stylesheet" href="/mocha/mocha.css">
+</head>
+<body>
+    <div id="mocha"></div>
+    <script src="/mocha/mocha.js"></script>
+    <script>mocha.setup('bdd')</script>
+    <script src="/chai/chai.js"></script>
+    <script>
+        var expect = chai.expect;
+    </script>
+
+
+    <script src="/underscore/underscore.js"></script>
+    <script src="/backbone/backbone.js"></script>
+    <script data-main="/test" src="/requirejs/require.js"></script>
+</body>
+</html>
