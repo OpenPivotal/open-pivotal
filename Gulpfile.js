@@ -1,5 +1,6 @@
 var gulp = require('gulp')
   , babel = require('gulp-babel')
+  , del = require('del')
   , concat = require('gulp-concat')
   , sass = require('gulp-sass')
   , handlebars = require('gulp-handlebars')
@@ -15,7 +16,11 @@ var gulp = require('gulp')
     sass: 'sass/*.scss'
   };
 
-gulp.task('default', [ 'scripts', 'tests', 'templates', 'copy-static', 'copy-bower', 'sass' ], function () {
+gulp.task('default', [ 'clean', 'scripts', 'tests', 'templates', 'copy-static', 'copy-bower', 'sass' ], function () {
+});
+
+gulp.task('clean', function (done) {
+  del('!dist/', done);
 });
 
 gulp.task('watch', [ 'default' ], function () {
