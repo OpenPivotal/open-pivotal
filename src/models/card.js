@@ -16,4 +16,12 @@ export default class Card extends Base {
   set created_at(date) {
     this._created_at = date;
   }
+
+  get labels() {
+    return this._labels.map((label) => label.name).join(', ');
+  }
+
+  set labels(labels) {
+    this._labels = labels;
+  }
 }
