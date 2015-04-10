@@ -1,4 +1,5 @@
 import Cards from 'collections/cards'
+import Card from 'models/card'
 import Project from 'models/project'
 
 export default class Store {
@@ -18,6 +19,19 @@ export default class Store {
       }
     }).done(function (project) {
       next(new Project(project));
+    });
+  }
+
+  findCard(id, next) {
+    let _this = this;
+
+    $.ajax({
+      url: `https://www.pivotaltracker.com/services/v5/projects/${_this.project}/stories/${id}`,
+      headers: {
+        'X-TrackerToken': _this.apiKey
+      }
+    }).done(function (project) {
+      next(new Card(project));
     });
   }
 

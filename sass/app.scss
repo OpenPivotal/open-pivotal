@@ -1,1 +1,10 @@
 @import "bootstrap";
+
+.open {
+  cursor: pointer;
+}
+
+.bland-link {
+  text-decoration: none;
+  color: $brand-primary;
+}
