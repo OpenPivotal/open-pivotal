@@ -13,12 +13,14 @@ export default Backbone.Router.extend({
     let store = new Store(apiKey, project)
       , createLane;
 
-    createLane = (row, laneName, cards) => {
+    createLane = (laneName, cards) => {
       let lane = new LaneView(laneName).$el;
-      row.append(lane);
+
       cards.cards.forEach((card) => {
         lane.find('.cards').append(new CardView(card, apiKey, project).$el);
       });
+
+      return lane;
     }
 
     store.findProject((project) => {
@@ -34,10 +36,10 @@ export default Backbone.Router.extend({
           store.findCards("doing", (doing) => {
             store.findCards("done", (done) => {
               row.html('');
-              createLane(row, 'Icebox', icebox);
-              createLane(row, 'Backlog', backlog);
-              createLane(row, 'Doing', doing);
-              createLane(row, 'Done', done);
+              row.append(createLane('Icebox', icebox));
+              row.append(createLane('Backlog', backlog));
+              row.append(createLane('Doing', doing));
+              row.append(createLane('Done', done));
             });
           });
         });
