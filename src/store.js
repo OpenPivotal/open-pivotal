@@ -8,30 +8,34 @@ export default class Store {
     this.project = project;
   }
 
-
-  findProject(next) {
+  get(endpoint) {
     let _this = this;
-
-    $.ajax({
-      url: `https://www.pivotaltracker.com/services/v5/projects/${_this.project}`,
-      headers: {
-        'X-TrackerToken': _this.apiKey
-      }
-    }).done(function (project) {
-      next(new Project(project));
+    return new Promise((resolve) => {
+      $.ajax({
+        url: `https://www.pivotaltracker.com/services/v5/projects/${_this.project}${endpoint}`,
+        headers: {
+          'X-TrackerToken': _this.apiKey
+        }
+      }).done(function (data) {
+        resolve(data);
+      });
     });
   }
 
-  findCard(id, next) {
-    let _this = this;
 
-    $.ajax({
-      url: `https://www.pivotaltracker.com/services/v5/projects/${_this.project}/stories/${id}`,
-      headers: {
-        'X-TrackerToken': _this.apiKey
-      }
-    }).done(function (project) {
-      next(new Card(project));
+  findProject() {
+    return new Promise((resolve) => {
+      this.get('').then((project) => {
+        resolve(new Project(project));
+      });
+    });
+  }
+
+  findCard(id) {
+    return new Promise((resolve) => {
+      this.get(`/stories/${id}`).then((card) => {
+        resolve(new Card(card));
+      });
     });
   }
 
@@ -42,16 +46,12 @@ export default class Store {
           "doing": [ 'delivered', 'started', 'rejected' ],
           "done": [ 'accepted', 'finished' ]
         }
-      , state = states[filter].join(',')
-      , _this = this;
+      , state = states[filter].join(',');
 
-    $.ajax({
-      url: `https://www.pivotaltracker.com/services/v5/projects/${_this.project}/stories?filter=state:${state} label:public`,
-      headers: {
-        'X-TrackerToken': _this.apiKey
-      }
-    }).done(function (cards) {
-      next(new Cards(cards));
+    return new Promise((resolve) => {
+      this.get(`/stories?filter=state:${state} label:public`).then((cards) => {
+        resolve(new Cards(cards));
+      });
     });
   }
 }

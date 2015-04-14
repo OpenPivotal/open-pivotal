@@ -23,7 +23,7 @@ export default Backbone.Router.extend({
       return lane;
     }
 
-    store.findProject((project) => {
+    store.findProject().then((project) => {
       let indexView = new IndexView(project)
         , row = indexView.$el.find('.row');
 
@@ -31,25 +31,24 @@ export default Backbone.Router.extend({
 
       row.html('<div class="col-md-12"><b>Loading...</b></div>');
 
-      store.findCards("icebox", (icebox) => {
-        store.findCards("backlog", (backlog) => {
-          store.findCards("doing", (doing) => {
-            store.findCards("done", (done) => {
-              row.html('');
-              row.append(createLane('Icebox', icebox));
-              row.append(createLane('Backlog', backlog));
-              row.append(createLane('Doing', doing));
-              row.append(createLane('Done', done));
-            });
-          });
-        });
-      });
+      Promise.all([
+        store.findCards("icebox"),
+        store.findCards("backlog"),
+        store.findCards("doing"),
+        store.findCards("done")
+      ]).then(values => {
+        row.html('');
+        row.append(createLane('Icebox', values[0]));
+        row.append(createLane('Backlog', values[1]));
+        row.append(createLane('Doing', values[2]));
+        row.append(createLane('Done',  values[3]));
+      })
     });
   },
   card: function (apiKey, project, id) {
     let store = new Store(apiKey, project);
 
-    store.findProject((project) => {
+    store.findProject().then((project) => {
       store.findCard(id, (card) => {
         let indexView = new IndexView(project)
           , row = indexView.$el.find('.row')
