@@ -1,4 +1,4 @@
-import Card from 'models/card'
+import Card from 'models/card';
 
 export default class Cards {
   constructor(cards) {

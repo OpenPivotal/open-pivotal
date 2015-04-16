@@ -5,17 +5,17 @@ export default Backbone.View.extend({
   events: {
     "click .open": "open"
   },
-  initialize: function(card, apiKey, project) {
+  initialize(card, apiKey, project) {
     this.card = card;
     this.apiKey = apiKey;
     this.project = project;
     this.render();
   },
-  render: function() {
+  render() {
     this.$el.html(this.template(this.card));
     return this;
   },
-  open: function () {
+  open() {
     App.router.navigate(`/${this.apiKey}/${this.project}/cards/${this.card.id}`, {trigger: true});
   }
 });

@@ -2,11 +2,11 @@ export default Backbone.View.extend({
   tagName: "div",
   className: "container",
   template: App.templates.index,
-  initialize: function(project) {
+  initialize(project) {
     this.project = project;
     this.render();
   },
-  render: function() {
+  render() {
     let _this = this;
 
     _this.$el.html(this.template(this.project));

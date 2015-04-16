@@ -1,6 +1,6 @@
-import Cards from 'collections/cards'
-import Card from 'models/card'
-import Project from 'models/project'
+import Cards from 'collections/cards';
+import Card from 'models/card';
+import Project from 'models/project';
 
 export default class Store {
   constructor(apiKey, project) {
